@@ -1,0 +1,24 @@
+0.7
+2020.2
+Oct 14 2022
+05:20:55
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sim_1/new/TOP_RISCV_TB.vhd,1681199170,vhdl,,,,top_riscv_tb,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sim_1/new/txt_util.vhd,1681198852,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sim_1/new/TOP_RISCV_TB.vhd,,,txt_util,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/ALU_decoder.vhd,1680688498,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/controlpath.vhd,,,alu_decoder,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/Alu.vhd,1680597741,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,alu,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/BRAM.vhd,1681191831,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sim_1/new/TOP_RISCV_TB.vhd,,,bram,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/CTRL_decoder.vhd,1681205151,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/controlpath.vhd,,,ctrl_decoder,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/Immediate.vhd,1681201848,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,immediate,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/Register_bank.vhd,1680687626,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,register_bank,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/TOP_RISCV.vhd,1681198191,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sim_1/new/TOP_RISCV_TB.vhd,,,top_riscv,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/adder.vhd,1681135169,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,adder,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/comparator.vhd,1680599251,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,comparator,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/controlpath.vhd,1681196936,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/TOP_RISCV.vhd,,,controlpath,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,1681207832,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/TOP_RISCV.vhd,,,datapath,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/forwarding_unit.vhd,1680691168,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/controlpath.vhd,,,forwarding_unit,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/hazard_unit.vhd,1680700964,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/controlpath.vhd,,,hazard_unit,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/mux2_to_1.vhd,1680599579,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd;D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/program_counter.vhd,,,mux2_to_1,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/mux4_to_1.vhd,1681186354,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,mux4_to_1,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/program_counter.vhd,1680971168,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,program_counter,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/reg32b_if_id.vhd,1681217654,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd,,,reg32b_if_id,,,,,,,,
+D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/register32b.vhd,1681217487,vhdl,D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/datapath.vhd;D:/Ljubomir/Documents/Arhitektura/RISC-V Pipeline/RISC-V Pipeline.srcs/sources_1/new/program_counter.vhd,,,register32b,,,,,,,,
