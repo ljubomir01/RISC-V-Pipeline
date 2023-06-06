@@ -92,6 +92,8 @@ begin
     end if;
 end process;
 
+instruction_o <= instr_id;
+
 Registarska_banka: entity work.Register_bank(Behavioral)
 port map(
     clk => clk,

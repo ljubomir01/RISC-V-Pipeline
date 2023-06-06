@@ -15,22 +15,15 @@ Compiling package xil_defaultlib.txt_util
 Compiling package ieee.std_logic_arith
 Compiling package ieee.std_logic_unsigned
 Compiling architecture behavioral of entity xil_defaultlib.BRAM [bram_default]
-Compiling architecture behavioral of entity xil_defaultlib.adder [adder_default]
-Compiling architecture behavioral of entity xil_defaultlib.mux2_to_1 [mux2_to_1_default]
-Compiling architecture behavioral of entity xil_defaultlib.register32b [register32b_default]
-Compiling architecture behavioral of entity xil_defaultlib.program_counter [program_counter_default]
-Compiling architecture behavioral of entity xil_defaultlib.reg32b_if_id [reg32b_if_id_default]
 Compiling architecture behavioral of entity xil_defaultlib.Register_bank [register_bank_default]
 Compiling architecture behavioral of entity xil_defaultlib.Immediate [immediate_default]
-Compiling architecture behavioral of entity xil_defaultlib.comparator [comparator_default]
-Compiling architecture behavioral of entity xil_defaultlib.mux4_to_1 [mux4_to_1_default]
 Compiling architecture behavioral of entity xil_defaultlib.Alu [alu_default]
-Compiling architecture struct of entity xil_defaultlib.datapath [datapath_default]
+Compiling architecture behavioral of entity xil_defaultlib.datapath [datapath_default]
 Compiling architecture behavioral of entity xil_defaultlib.hazard_unit [hazard_unit_default]
 Compiling architecture behavioral of entity xil_defaultlib.CTRL_decoder [ctrl_decoder_default]
 Compiling architecture behavioral of entity xil_defaultlib.forwarding_unit [forwarding_unit_default]
 Compiling architecture behavioral of entity xil_defaultlib.ALU_decoder [alu_decoder_default]
-Compiling architecture struct of entity xil_defaultlib.controlpath [controlpath_default]
+Compiling architecture behavioral of entity xil_defaultlib.controlpath [controlpath_default]
 Compiling architecture struct of entity xil_defaultlib.TOP_RISCV [top_riscv_default]
 Compiling architecture behavioral of entity xil_defaultlib.top_riscv_tb
 Built simulation snapshot TOP_RISCV_tb_behav
