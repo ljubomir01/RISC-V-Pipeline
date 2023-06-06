@@ -35,7 +35,7 @@ process(branch_id_i, rs1_address_id_i, rd_address_ex_i, rs1_in_use_i, rs2_addres
 begin
     
     if branch_id_i = '0' then
-        if(((rs1_address_id_i = rd_address_ex_i and rs1_in_use_i = '1') or (rs2_address_id_i = rd_address_ex_i and rs2_in_use_i = '1')) and mem_to_reg_ex_i = '1') then
+        if(((rs1_address_id_i = rd_address_ex_i and rs1_in_use_i = '1') or (rs2_address_id_i = rd_address_ex_i and rs2_in_use_i = '1')) and (mem_to_reg_ex_i = '1' and rd_we_ex_i = '1')) then
             --load instrukcija je u EX fazi
             pc_en_o <= '0';
             if_id_en_o <= '0';

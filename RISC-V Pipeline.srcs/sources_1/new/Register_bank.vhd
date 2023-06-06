@@ -27,7 +27,7 @@ begin
 
 process(clk, reset)
 begin
-    if clk'event and clk = '1' then
+    if falling_edge(clk) then
         if reset = '0' then
             registers <= (others => (others => '0'));
         else
@@ -38,7 +38,7 @@ begin
     end if;
 end process;
 
-    rs1_data_o <= registers(TO_INTEGER(unsigned(rs1_address_i))) when rs1_address_i /= "00000" else (others => '0');
-    rs2_data_o <= registers(TO_INTEGER(unsigned(rs2_address_i))) when rs2_address_i /= "00000" else (others => '0');
+    rs1_data_o <= registers(TO_INTEGER(unsigned(rs1_address_i)));
+    rs2_data_o <= registers(TO_INTEGER(unsigned(rs2_address_i)));
 
 end Behavioral;

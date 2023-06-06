@@ -39,7 +39,7 @@ begin
             rd_we_o <= '1';
             data_mem_we_o <= '0';
             branch_o <= '0';
-            alu_2bit_op_o <= "00";
+            alu_2bit_op_o <= "11";
             rs1_in_use_o <= '1';
             rs2_in_use_o <= '0';
         when "0100011" =>
@@ -48,7 +48,7 @@ begin
             rd_we_o <= '0';
             data_mem_we_o <= '1';
             branch_o <= '0';
-            alu_2bit_op_o <= "00";
+            alu_2bit_op_o <= "11";
             rs1_in_use_o <= '1';
             rs2_in_use_o <= '1';
         when "1100011" =>
@@ -79,6 +79,15 @@ begin
             rs1_in_use_o <= '0';
             rs2_in_use_o <= '0';
         when others =>
+            alu_src_b_o <= '0';
+            mem_to_reg_o <= '0';
+            rd_we_o <= '0';
+            data_mem_we_o <= '0';
+            branch_o <= '0';
+            alu_2bit_op_o <= "00";
+            rs1_in_use_o <= '0';
+            rs2_in_use_o <= '0';
+            
     end case;
 end process;
 

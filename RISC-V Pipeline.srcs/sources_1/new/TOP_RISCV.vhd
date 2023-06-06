@@ -1,7 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std.ALL;
-
+use IEEE.NUMERIC_STD.ALL;
 
 entity TOP_RISCV is
 Port (
@@ -19,13 +18,15 @@ Port (
 end TOP_RISCV;
 
 architecture Struct of TOP_RISCV is
-    signal instruction_s : std_logic_vector(31 downto 0);
-    signal pc_next_sel_s, if_id_en_s, pc_en_s, if_id_flush_s, branch_forward_a_s, branch_forward_b_s, branch_condition_s, mem_to_reg_s, alu_src_s, rd_we_i_s : std_logic;
-    signal alu_op_s : std_logic_vector(4 downto 0);
-    signal alu_forward_a_s, alu_forward_b_s : std_logic_vector(1 downto 0); --IZMJENAAAA
+
+signal instruction_s : std_logic_vector(31 downto 0);
+signal pc_next_sel_s, if_id_en_s, pc_en_s, if_id_flush_s, branch_forward_a_s, branch_forward_b_s, branch_condition_s, mem_to_reg_s, alu_src_s, rd_we_i_s : std_logic;
+signal alu_op_s : std_logic_vector(4 downto 0);
+signal alu_forward_a_s, alu_forward_b_s : std_logic_vector(1 downto 0);
+
 begin
 
-DATAPATH: entity work.datapath(Struct)
+DATAPATH: entity work.datapath(Behavioral)
 port map(
     clk => clk,
     reset => reset,
@@ -50,7 +51,7 @@ port map(
     if_id_en_i => if_id_en_s
 );
 
-CONTROLPATH: entity work.controlpath(Struct)
+CONTROLPATH: entity work.controlpath(Behavioral)
 port map(
     clk => clk,
     reset => reset,

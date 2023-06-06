@@ -1,7 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-use work.all;
 
 entity datapath is
 Port (
@@ -36,247 +35,185 @@ Port (
 );
 end datapath;
 
-architecture Struct of datapath is
-    signal next_instruction_s : std_logic_vector(31 downto 0);
-    signal pc_register_s, pc_register_s_1 : std_logic_vector(31 downto 0);
-    signal const : std_logic_vector(31 downto 0):= X"00000004";
-    signal rs1_address_id_s, rs2_address_id_s, rd_address_id_s : std_logic_vector(4 downto 0);
-    signal rd_data_s, rs1_data_s, rs2_data_s, rs1_data_s_1, rs2_data_s_1, rs2_data_s_2, rd_address_s : std_logic_vector(31 downto 0);
-    signal pc_input_b_s, pc_input_b_s_1 : std_logic_vector(31 downto 0);
-    signal instruction_o_s, instruction_o_s_1, instruction_o_s_2, instruction_o_s_3 : std_logic_vector(31 downto 0);
-    signal immediate_shift, immediate_s, immediate_s_1 : std_logic_vector(31 downto 0);
-    signal comparator_a, comparator_b : std_logic_vector(31 downto 0);
-    signal alu_address_s, alu_input_a_s, alu_input_b_s, alu_input_b, alu_res, alu_address_s_1 : std_logic_vector(31 downto 0);
-    signal data_mem_write_o_s, data_mem_write_o_s_1 : std_logic_vector(31 downto 0);
+architecture Behavioral of datapath is
+
+    signal adder_s, imm_adder_s, pc_input_s, pc_output_s : std_logic_vector(31 downto 0); -- IF FAZA
+    signal pc_output_s1, instr_id, rs1_data_s, rs2_data_s, rd_data_s, rd_data_mem, rd_data_wb : std_logic_vector(31 downto 0);
+    signal rd_address_s : std_logic_vector(4 downto 0);
+    signal rd_id, rd_ex, rd_mem : std_logic_vector(4 downto 0);
+    signal mux1_wb, mux0_wb, immediate_s, muxa_id_s, muxb_id_s, rd_data_mem_s : std_logic_vector(31 downto 0);
+    signal alu_res_s, rs1_data_s1, rs2_data_s1, immediate_s1, rs2_data_ex_mem, mux_a, mux_b, mux_ex : std_logic_vector(31 downto 0);
 begin
-    instruction_o_s <= instr_mem_read_i;
-    instruction_o <= instruction_o_s_1;
-Next_Instruction:
-    entity work.adder(Behavioral)
-        port map(
-            input_a => pc_register_s,
-            input_b => const,
-            output => next_instruction_s
-        );
-Program_Counter:
-    entity work.program_counter(Behavioral)
-        port map(
-            en => pc_en_i,
-            clear => '0',
-            clk => clk,
-            sel => pc_next_sel_i,
-            input_a => next_instruction_s,
-            input_b => pc_input_b_s,
-            output => pc_register_s
-        );
-    instr_mem_address_o <= pc_register_s;
-IF_ID_REG1:
-    entity work.reg32b_if_id(Behavioral)
-        port map(
-            load => if_id_en_i,
-            clk => clk,
-            input => instruction_o_s,
-            flush => if_id_flush_i,
-            clear => reset,
-            output => instruction_o_s_1
-        );
-IF_ID_REG2: 
-    entity work.reg32b_if_id(Behavioral)
-        port map(
-            load => if_id_en_i,
-            clk => clk,
-            flush => if_id_flush_i,
-            input => pc_register_s,
-            clear => reset,
-            output => pc_register_s_1
-        );
-Register_Bank:
-    entity work.register_bank(Behavioral)
-    Generic map(WIDTH => 32)
-    port map(
-        clk => clk,
-        reset => reset,
-        rs1_address_i => instruction_o_s(19 downto 15),
-        rs2_address_i => instruction_o_s(24 downto 20),
-        rd_address_i => rd_address_s(11 downto 7),
-        rd_data_i => rd_data_s,
-        rd_we_i => rd_we_i,
-        rs1_data_o => rs1_data_s,
-        rs2_data_o => rs2_data_s
-    );
-Immediate:
-    entity work.Immediate(Behavioral)
-    port map(
-        instruction_i => instruction_o_s,
-        immediate_extended_o => immediate_s
-    );
-    immediate_shift <= immediate_s(30 downto 0) & '0';
-Add_Immediate:
-    entity work.adder(Behavioral)
-    port map(
-        input_a => immediate_shift,
-        input_b => pc_register_s_1,
-        output => pc_input_b_s
-    );
-comparator_a_input:
-    entity work.mux2_to_1(Behavioral)
-    port map(
-        input_a => rs1_data_s,
-        input_b => rd_data_s,
-        output => comparator_a,
-        sel => branch_forward_a_i
+
+--IF faza
+--Mux1_pc
+MUX_PC: process(pc_next_sel_i, adder_s, imm_adder_s) is
+begin
+    if pc_next_sel_i = '0' then
+        pc_input_s <= adder_s;
+    else
+        pc_input_s <= imm_adder_s;
+    end if;
+end process;
+
+adder_s <= std_logic_vector(unsigned(pc_output_s) + 4);
+instr_mem_address_o <= pc_output_s;
+
+PC: process(clk) is
+begin
+    if(rising_edge(clk)) then
+        if(reset = '0') then
+            pc_output_s <= (others => '0');
+        else
+            if(pc_en_i = '1') then
+                pc_output_s <= pc_input_s;
+            end if;
+        end if;
+    end if;
+end process;
+
+IF_ID_REG: process(clk) is
+begin
+    if(rising_edge(clk)) then
+        if(reset = '0') then
+            instr_id <= (others => '0');
+            pc_output_s1 <= (others => '0');
+        else
+            if(if_id_en_i = '1') then
+                if(if_id_flush_i = '1') then
+                    instr_id <= (others => '0');
+                    pc_output_s1 <= (others => '0');
+                else
+                    instr_id <= instr_mem_read_i;
+                    pc_output_s1 <= pc_output_s;
+                end if;
+            end if;
+        end if;
+    end if;
+end process;
+
+Registarska_banka: entity work.Register_bank(Behavioral)
+port map(
+    clk => clk,
+    reset => reset,
+    rs1_address_i => instr_id(19 downto 15),
+    rs1_data_o => rs1_data_s,
+    rs2_address_i => instr_id(24 downto 20),
+    rs2_data_o => rs2_data_s,
+    rd_we_i => rd_we_i,
+    rd_address_i => rd_address_s,
+    rd_data_i => rd_data_s
 );
-comparator_b_input:
-    entity work.mux2_to_1(Behavioral)
-    port map(
-        input_a => rs2_data_s,
-        input_b => rd_data_s,
-        output => comparator_b,
-        sel => branch_forward_b_i
+rd_id <= instr_id(11 downto 7);
+
+Immediate: entity work.Immediate(Behavioral)
+port map(
+    instruction_i => instr_id,
+    immediate_extended_o => immediate_s
 );
-comp:
-    entity work.comparator(Behavioral)
-    port map(
-        input_a => comparator_a,
-        input_b => comparator_b,
-        is_equal => branch_condition_o
-    );
-ID_EX1:
-    entity work.register32b(Behavioral)
-    port map(
-        load => '1',
-        clk => clk,
-        clear => reset,
-        input => rs1_data_s,
-        output => rs1_data_s_1
-    );
-ID_EX2:
-    entity work.register32b(Behavioral)
-    port map(
-        load => '1',
-        clk => clk,
-        clear => reset,
-        input => rs2_data_s,
-        output => rs2_data_s_1
-    );
-ID_EX3:
-    entity work.register32b(Behavioral)
-    port map(
-        load => '1',
-        clk => clk,
-        clear => reset,
-        input => immediate_s,
-        output => immediate_s_1
-    );
-ID_EX4:
-    entity work.register32b(Behavioral)
-    port map(
-        load => '1',
-        clk => clk,
-        clear => reset,
-        input => instruction_o_s_1,
-        output => instruction_o_s_2
-    );
-Mux4_first:
-    entity work.mux4_to_1(Behavioral)
-    port map(
-        sel => alu_forward_a_i,
-        input_a => rs1_data_s_1,
-        input_b => rd_data_s,
-        input_c => alu_address_s,
-        input_d => X"00000000",
-        output => alu_input_a_s
-    );
-Mux4_second:
-    entity work.mux4_to_1(Behavioral)
-    port map(
-        sel => alu_forward_b_i,
-        input_a => rs2_data_s_1,
-        input_b => rd_data_s,
-        input_c => alu_address_s,
-        input_d => X"00000000",
-        output => alu_input_b
-    );
-mux2_alu:
-    entity work.mux2_to_1(Behavioral)
-    port map(
-        input_a => alu_input_b,
-        input_b => immediate_s_1,
-        output => alu_input_b_s,
-        sel => alu_src_b_i
-    );
-ALU:
-    entity work.Alu(Behavioral)
-    Generic map(WIDTH => 32)
-    port map(
-        a_i => alu_input_a_s,
-        b_i => alu_input_b_s,
-        op_i => alu_op_i,
-        res_o => alu_res
-    );
-EX_MEM_REG1:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        load => '1',
-        clear => reset,
-        input => alu_res,
-        output => alu_address_s
-    );
-EX_MEM_REG2:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        load => '1',
-        clear => reset,
-        input => rs2_data_s_1,
-        output => rs2_data_s_2
-    );
-EX_MEM_REG3:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        load => '1',
-        clear => reset,
-        input => instruction_o_s_2,
-        output => instruction_o_s_3
-    );
-    data_mem_address_o <= alu_address_s;
-    data_mem_write_o <= rs2_data_s_2;
-MEM_WB_REG1:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        clear => reset,
-        load => '1',
-        input => alu_address_s,
-        output => alu_address_s_1
-    );
-MEM_WB_REG2:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        clear => reset,
-        load => '1',
-        input => instruction_o_s_3,
-        output => rd_address_s
-    );
-    data_mem_write_o_s <= data_mem_read_i;
-MEM_WB_REG3:
-    entity work.register32b(Behavioral)
-    port map(
-        clk => clk,
-        clear => reset,
-        load => '1',
-        input => data_mem_write_o_s,
-        output => data_mem_write_o_s_1
-    );
-MUX_MEM:
-    entity work.mux2_to_1(Behavioral)
-    port map(
-        input_a => alu_address_s_1,
-        input_b => data_mem_write_o_s_1,
-        output => rd_data_s,
-        sel => mem_to_reg_i
-    );
-end Struct;
+
+imm_adder_s <= std_logic_vector(unsigned(pc_output_s1) + unsigned(shift_left(unsigned(immediate_s), 1)));
+
+muxa_id_s <= rs1_data_s when branch_forward_a_i = '0' else
+             rd_data_mem_s;
+muxb_id_s <= rs2_data_s when branch_forward_b_i = '0' else
+             rd_data_mem_s;
+branch_condition_o <= '0' when muxa_id_s /= muxb_id_s else
+                      '1';
+
+ID_EX: process(clk) is
+begin
+    if(rising_edge(clk)) then
+        if(reset = '0') then
+            rs1_data_s1 <= (others => '0');
+            rs2_data_s1 <= (others => '0');
+            immediate_s1 <= (others => '0');
+            rd_ex <= (others => '0');
+            rs2_data_ex_mem <= (others => '0');
+        else
+            rs1_data_s1 <= rs1_data_s;
+            rs2_data_s1 <= rs2_data_s;
+            immediate_s1 <= immediate_s;
+            rd_ex <= rd_id;
+            rs2_data_ex_mem <= rs2_data_s;
+        end if;
+    end if;
+end process;
+
+MUXA_ALU_EX: process(alu_forward_a_i, rs1_data_s1, rd_data_wb, rd_data_mem)
+begin
+    if(alu_forward_a_i = "00")then
+        mux_a <= rs1_data_s1;
+    elsif(alu_forward_a_i = "01") then
+        mux_a <= rd_data_wb;
+    elsif(alu_forward_a_i = "10") then
+        mux_a <= rd_data_mem;
+    else
+        mux_a <= (others => '0');
+    end if;
+end process;
+
+MUXB_EX: process(alu_forward_b_i, rs2_data_s1, rd_data_wb, rd_data_mem) is
+begin
+    if(alu_forward_b_i = "00")then
+        mux_ex <= rs2_data_s1;
+    elsif(alu_forward_b_i = "01") then
+        mux_ex <= rd_data_wb;
+    elsif(alu_forward_b_i = "10") then
+        mux_ex <= rd_data_mem;
+    else
+        mux_ex <= (others => '0');
+    end if;
+end process;
+
+mux_b <= mux_ex when alu_src_b_i = '0' else
+         immediate_s1;
+
+ALU: entity work.ALU(Behavioral)
+port map(
+    a_i => mux_a,
+    b_i => mux_b,
+    op_i => alu_op_i, 
+    res_o => alu_res_s
+);
+
+EX_MEM: process(clk) is
+begin
+    if(rising_edge(clk)) then
+        if(reset = '0') then
+            rd_data_mem <= (others => '0');
+            rd_mem <= (others => '0');
+            data_mem_write_o <= (others => '0');
+        else
+            rd_data_mem <= alu_res_s;
+            rd_mem <= rd_ex;
+            data_mem_write_o <= rs2_data_ex_mem;
+        end if;
+    end if;
+end process;
+
+data_mem_address_o <= rd_data_mem;
+
+MEM_WB: process(clk) is
+begin
+    if(rising_edge(clk)) then
+        if(reset = '0') then
+            mux1_wb <= (others => '0');
+            mux0_wb <= (others => '0');
+            rd_address_s <= (others => '0');
+        else
+            mux1_wb <= data_mem_read_i;
+            mux0_wb <= rd_data_mem;
+            rd_address_s <= rd_mem;
+        end if;
+    end if;
+end process;
+
+rd_data_wb <= mux0_wb when mem_to_reg_i = '0' else
+              mux1_wb;
+rd_data_s <= rd_data_wb;
+
+
+
+
+end Behavioral;

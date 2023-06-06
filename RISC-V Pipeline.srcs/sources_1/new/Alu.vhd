@@ -24,8 +24,8 @@ begin
         when "00000" => res_o <= a_i and b_i;--and operation
         when "00001" => res_o <= a_i or b_i;--or operation
         when "00010" => res_o <= addition(31 downto 0);--add
-        when "00110" => res_o <= addition(31 downto 0);--sub
-        when others => res_o <= a_i;
+        when "00110" => res_o <= subtraction(31 downto 0);--sub
+        when others => res_o <= (others => '0');
     end case;
 end process;
 
