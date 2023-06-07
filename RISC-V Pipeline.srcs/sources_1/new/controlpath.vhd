@@ -85,6 +85,7 @@ port map(
     alu_2bit_op_o => alu_2bit_op_id_s
 );
 
+pc_next_sel_o <= branch_id_s and branch_condition_i;
 if_id_flush_o <= (branch_id_s and branch_condition_i);
 
 ID_EX: process(clk) is
